@@ -190,7 +190,13 @@ class TilemapParticleRenderer extends Sprite implements ParticleSystemRenderer {
                 tile.colorTransform.redMultiplier = particle.color.r;
                 tile.colorTransform.greenMultiplier = particle.color.g;
                 tile.colorTransform.blueMultiplier = particle.color.b;
-                tile.invalidate();
+
+
+                #if (openfl >= "8.0.0")
+                    tile.invalidate();
+                #else
+                    @:privateAccess tile.__setRenderDirty();
+                #end
 
                 #if zameparticles_use_tile_visibility
                     tile.visible = true;

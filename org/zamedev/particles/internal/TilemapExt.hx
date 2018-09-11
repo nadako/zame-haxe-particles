@@ -13,7 +13,8 @@ class TilemapExt extends Tilemap {
         shapeFlag : Bool,
         stack : Array<DisplayObject>,
         interactiveOnly : Bool,
-        hitObject : DisplayObject
+        hitObject : DisplayObject,
+        hitTestWhenMouseDisabled:Bool = false
     ) : Bool {
         return false;
     }
