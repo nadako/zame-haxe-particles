@@ -2,6 +2,7 @@ package org.zamedev.particles.loaders;
 
 import openfl.Assets;
 import openfl.errors.Error;
+import openfl.display.BitmapData;
 import org.zamedev.particles.ParticleSystem;
 import org.zamedev.particles.util.MathHelper;
 import org.zamedev.particles.util.ParticleColor;
@@ -11,6 +12,22 @@ class PexLapParticleLoader {
     public static function load(path : String) : ParticleSystem {
         var root = Xml.parse(Assets.getText(path)).firstElement();
 
+        var map = _initConfigMap(root);
+        var ps = _initPSFromConfig(map);
+        ps.textureBitmapData = ParticleLoader.loadTexture(map["texture"].get("data"), map["texture"].get("name"), path);
+
+        return ps;
+    }
+
+    public static function loadFromConfig(root : Xml, bitmapData : BitmapData = null) : ParticleSystem {
+        var map = _initConfigMap(root);
+        var ps = _initPSFromConfig(map);
+        ps.textureBitmapData = bitmapData;
+
+        return ps;
+    }
+
+    private static function _initConfigMap(root : Xml) : Map<String, Xml> {
         if (root.nodeName != "particleEmitterConfig" && root.nodeName != "lanicaAnimoParticles") {
             throw new Error('Expecting "particleEmitterConfig" or "lanicaAnimoParticles", but "${root.nodeName}" found');
         }
@@ -21,6 +38,10 @@ class PexLapParticleLoader {
             map[node.nodeName] = node;
         }
 
+        return map;
+    }
+
+    private static function _initPSFromConfig(map : Map<String, Xml>) {
         var ps = new ParticleSystem();
 
         ps.emitterType = parseIntNode(map["emitterType"]);
@@ -60,7 +81,6 @@ class PexLapParticleLoader {
         ps.tangentialAccelerationVariance = parseFloatNode(map["tangentialAccelVariance"]);
         ps.blendFuncSource = parseIntNode(map["blendFuncSource"]);
         ps.blendFuncDestination = parseIntNode(map["blendFuncDestination"]);
-        ps.textureBitmapData = ParticleLoader.loadTexture(map["texture"].get("data"), map["texture"].get("name"), path);
         ps.yCoordMultiplier = (parseIntNode(map["yCoordFlipped"]) == 1 ? -1.0 : 1.0);
         ps.headToVelocity = (parseIntNode(map["headToVelocity"]) == 1); // custom property
         ps.forceSquareTexture = true;
