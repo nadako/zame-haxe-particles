@@ -1,16 +1,16 @@
 package org.zamedev.particles.loaders;
 
-import openfl.Assets;
-import openfl.errors.Error;
-import openfl.display.BitmapData;
+import flash.display.BitmapData;
+import flash.errors.Error;
 import org.zamedev.particles.ParticleSystem;
 import org.zamedev.particles.util.MathHelper;
 import org.zamedev.particles.util.ParticleColor;
 import org.zamedev.particles.util.ParticleVector;
 
 class PexLapParticleLoader {
+    #if openfl
     public static function load(path : String) : ParticleSystem {
-        var root = Xml.parse(Assets.getText(path)).firstElement();
+        var root = Xml.parse(openfl.Assets.getText(path)).firstElement();
 
         var map = _initConfigMap(root);
         var ps = _initPSFromConfig(map);
@@ -18,6 +18,7 @@ class PexLapParticleLoader {
 
         return ps;
     }
+    #end
 
     public static function loadFromConfig(root : Xml, bitmapData : BitmapData = null) : ParticleSystem {
         var map = _initConfigMap(root);

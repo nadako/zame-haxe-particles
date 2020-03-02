@@ -1,14 +1,14 @@
 package org.zamedev.particles.renderers;
 
-import lime.graphics.opengl.GL;
-import openfl.display.Bitmap;
-import openfl.display.Sprite;
-import openfl.events.Event;
+import flash.display.Bitmap;
+import flash.display.Sprite;
+import flash.events.Event;
 import org.zamedev.particles.ParticleSystem;
+import org.zamedev.particles.internal.GL;
 
 #if (native || webgl || flash)
-    import openfl.display.BlendMode;
-    import openfl.filters.ColorMatrixFilter;
+    import flash.display.BlendMode;
+    import flash.filters.ColorMatrixFilter;
 #end
 
 class SpritesParticleRendererInfo {
